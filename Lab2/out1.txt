@@ -1,0 +1,2 @@
+counter is: 9
+total time is: 73000 ns
