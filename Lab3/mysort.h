@@ -2,7 +2,7 @@
 #include <vector>
 
 // includes
-#define STDARRAYSIZE 50
+#define STDARRAYSIZE 10000
 // structs
 typedef struct 
 {
@@ -11,17 +11,10 @@ typedef struct
     int *arr;
 }sortData_t;
 
-typedef struct
-{
-    std::vector <int> arr;
 
-}bucketData_t;
 // function declarations
 void global_init();
 void global_cleanup();
+void taskHandler(int arr[], int left, int right);
 void merge(int arr[], int left, int middle, int right);
 void mergeSort(int arr[], int left, int right);
-void bucket_sort(int start, int n);
-void *bucket_sort(void* arg);
-void handle_concurrency_primitive(bool position);
-void handle_concurrency_primitive1();
