@@ -4,12 +4,7 @@
 // includes
 #define STDARRAYSIZE 10000
 // structs
-typedef struct 
-{
-    int left;
-    int right;
-    int *arr;
-}sortData_t;
+
 
 
 // function declarations

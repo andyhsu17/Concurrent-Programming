@@ -7,7 +7,6 @@
 
 struct timespec start, end;
 int numarray[STDARRAYSIZE];
-sortData_t * dataStruct;
 volatile int arrayElements;
 
 void merge(int arr[], int left, int middle, int right)
@@ -89,16 +88,18 @@ int main(int argc, char * argv[])
     int NUMTHREADS;
     std::fstream myfile(argv[1]);       // file input numbers into int array
     std::vector <std::vector<int>> threadData; 
-    std::string output = "out.txt";
-
+    std::string output = "out.txt";     // default outfile name
+    if(argc < 2) 
+    {
+        std::cout << "please enter sourcefile name" << std::endl;
+        return -1;
+    }
     if(!strcmp(argv[1], "--name"))
     {
         std::cout << "Andrew Hsu" << std::endl;
         return 0;
     }
-
     std::string sourcefile = argv[1];
-
     for(int l = 0; l < argc; l++)
     {
         if(!strcmp(argv[l], "-o"))
@@ -118,7 +119,7 @@ int main(int argc, char * argv[])
     myfile.close();
     arrayElements = i;
 
-    #pragma omp parallel        // just allows us to get the number of threads. otherwise this will always be 1
+    #pragma omp parallel default(none) shared(NUMTHREADS)        // just allows us to get the number of threads. otherwise this will always be 1
     {
         NUMTHREADS = omp_get_num_threads();    
     }
@@ -136,11 +137,11 @@ int main(int argc, char * argv[])
         std::vector <int> v;        // load left and right index vector into main vector
         v.push_back(left);
         v.push_back(right);
-        threadData.push_back(v);
+        threadData.push_back(v);    // push the 
         j += temp;
     }
 
-    #pragma omp parallel    // omp parallelization
+    #pragma omp parallel default(none) shared(numarray, threadData, NUMTHREADS)// omp parallelization
     {
         #pragma omp for
         for(int i = 0; i < NUMTHREADS; i++)     // have omp handle threads for for oop
